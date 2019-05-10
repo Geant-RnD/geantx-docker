@@ -29,8 +29,18 @@ run-verbose()
 
 cd ${SOURCE_DIR}
 
-# install ROOT via conda
-run-verbose conda install -n base -c conda-forge root
+# install ROOT
+cd ${SOURCE_DIR}
+run-verbose wget https://root.cern/download/root_v6.16.00.source.tar.gz \
+ && tar xvzf root_v6.16.00.source.tar.gz \
+ && rm root_v6.16.00.source.tar.gz
+
+setup-build
+
+run-verbose cmake ${SOURCE_DIR}/root-6.16.00 -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -G Ninja
+run-verbose cmake --build ${PWD} --target all
+run-verbose cmake --build ${PWD} --target install
+run-verbose source ${INSTALL_DIR}/bin/thisroot.sh
 
 cd ${SOURCE_DIR}
 run-verbose git clone https://github.com/VcDevel/Vc.git
@@ -54,6 +64,8 @@ run-verbose git checkout master
 
 cd ${SOURCE_DIR}
 run-verbose git clone https://gitlab.cern.ch/VecGeom/VecGeom.git
+cd VecGeom
+run-verbose git checkout v00.05.01
 
 ### Environment settings
 : ${VECGEOM_VECTOR:=avx}
@@ -69,14 +81,19 @@ run-verbose cmake --build ${PWD} --target install
 ### Build HepMC [requires ROOT]
 
 setup-build
-run-verbose cmake ${SOURCE_DIR}/HepMC3 -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}
+run-verbose cmake ${SOURCE_DIR}/HepMC3 -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+    -DROOT_DIR=${ROOTSYS}/cmake
 run-verbose cmake --build ${PWD} --target all
 run-verbose cmake --build ${PWD} --target install
 
 ### Build VecCore
 
 setup-build
-run-verbose cmake ${SOURCE_DIR}/VecCore -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DVC=ON -G Ninja
+run-verbose cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+    -DROOT=ON \
+    -DBACKEND=Vc \
+    -DVc_DIR=${INSTALL_DIR}/lib/cmake/Vc/ \
+    ${SOURCE_DIR}/VecCore -G Ninja
 run-verbose cmake --build ${PWD} --target all
 run-verbose cmake --build ${PWD} --target install
 
@@ -91,11 +108,9 @@ run-verbose cmake --build ${PWD} --target install
 
 setup-build
 run-verbose cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
-    -DBUILTIN_VECCORE=OFF \
-    -DBACKEND=${VECGEOM_BACKEND} \
-    -DCUDA=OFF -DCUDA_VOLUME_SPECIALIZATION=OFF \
-    -DNO_SPECIALIZATION=ON -DROOT=ON \
-    -DVECGEOM_VECTOR=${VECGEOM_VECTOR} \
+    -DROOT=ON \
+    -DBACKEND=Vc \
+    -DVc_DIR=${INSTALL_DIR}/lib/cmake/Vc/ \
     ${SOURCE_DIR}/VecGeom -G Ninja
 run-verbose cmake --build ${PWD} --target all
 run-verbose cmake --build ${PWD} --target install
