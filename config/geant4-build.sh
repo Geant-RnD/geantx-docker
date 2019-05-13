@@ -66,6 +66,8 @@ run-verbose \
         -DUSE_X11=${USE_X11} \
         -DUSE_QT=${USE_QT} \
         -DUSE_USOLIDS=${USE_USOLIDS} \
+        -DGEANT4_INSTALL_DATA=ON \
+        -DGEANT4_USE_GDML=ON \
         -DGEANT4_INSTALL_EXAMPLES=OFF \
     -P /tmp/configure-file.cmake
 
