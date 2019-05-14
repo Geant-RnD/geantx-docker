@@ -1,0 +1,52 @@
+################################################################################
+#   Build stage 1
+################################################################################
+ARG BASE_IMG=geantx/geant4
+ARG BASE_TAG=latest
+FROM ${BASE_IMG}:${BASE_TAG} as builder
+
+WORKDIR /tmp
+
+# build and env args used by package-manager
+ARG COMPILER_TYPE
+ARG COMPILER_VERSION
+ENV COMPILER_TYPE ${COMPILER_TYPE}
+ENV COMPILER_VERSION ${COMPILER_VERSION}
+
+# build arguments
+ARG SHARED=ON
+ARG STATIC=OFF
+ARG CXXSTD=11
+ARG BUILD_TYPE=Release
+ARG SOFTWARE=geantv
+
+# environment settings
+ENV BUILD_TYPE      ${BUILD_TYPE}
+ENV SHARED          ${SHARED}
+ENV STATIC          ${STATIC}
+ENV CXXSTD          ${CXXSTD}
+ENV TIMEMORY        ${TIMEMORY}
+ENV SOFTWARE        ${SOFTWARE}
+
+# cmake script for generating templates
+COPY ./config/configure-file.cmake /tmp/configure-file.cmake
+
+COPY ./config/*-config.cmake.in /tmp/
+
+# copy over the "depend" script
+COPY ./config/geantv-depend.sh /tmp/
+# build the geantv specific dependencies
+RUN ./${SOFTWARE}-depend.sh
+
+# copy over the "build" script
+COPY ./config/geantv-build.sh /tmp/
+# build the software
+RUN ./${SOFTWARE}-build.sh
+
+# clean up
+RUN rm -rf /tmp/*
+
+USER root
+WORKDIR /home
+SHELL [ "/bin/bash", "--login", "-c" ]
+ENTRYPOINT [ "/runtime-entrypoint.sh" ]

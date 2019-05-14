@@ -27,9 +27,6 @@ run-verbose()
     eval $@
 }
 
-chmod 755 /usr/local/bin/thisroot.sh
-. /usr/local/bin/thisroot.sh
-
 ### Checkout GeantV
 
 cd ${SOURCE_DIR}
@@ -40,20 +37,20 @@ mkdir -p geant/data
 cp geant/examples/physics/FullCMS/Geant4/cms.gdml geant/data/cms2018.gdml
 
 ### Build GeantV
-
-if [ -f /usr/local/bin/geant4.sh ]; then
-    G4PATH=$(dirname $(find /usr/local | grep Geant4Config.cmake | head -n 1))
-    export CMAKE_PREFIX_PATH=${G4PATH}:${CMAKE_PREFIX_PATH}
-    : ${USE_GEANT4:=ON}
-fi
-: ${USE_GEANT4:=OFF}
-
 setup-build
 run-verbose cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
-    -DUSE_ROOT=ON -DWITH_GEANT4=${USE_GEANT4} -DDATA_DOWNLOAD=ON \
-    -DBUILD_REAL_PHYSICS_TESTS=OFF -DVECTORIZED_GEOMETRY=ON \
-    -DWITH_GEANT4_UIVIS=${USE_GEANT4} -DUSE_VECPHYS=OFF \
+    -DVc_DIR=$INSTALL_DIR/lib/cmake/Vc \
+    -DVecCore_DIR=$INSTALL_DIR/share/VecCore/cmake \
+    -DVecCoreLib_DIR=$INSTALL_DIR/lib/cmake/VecCoreLib \
+    -DVecGeom_DIR=$INSTALL_DIR/lib/CMake/VecGeom \
+    -DHepMC_DIR=$INSTALL_DIR/cmake/ \
+    -DUSE_ROOT=ON -DWITH_GEANT4=ON \
+    -DDATA_DOWNLOAD=ON \
+    -DVECTORIZED_GEOMETRY=ON \
+    -DUSE_VECPHYS=OFF \
+    -DBUILD_REAL_PHYSICS_TESTS=OFF \
     ${SOURCE_DIR}/geant -G Ninja
+
 run-verbose cmake --build ${PWD} --target all
 run-verbose cmake --build ${PWD} --target install
 

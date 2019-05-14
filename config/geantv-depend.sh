@@ -90,8 +90,7 @@ run-verbose cmake --build ${PWD} --target install
 
 setup-build
 run-verbose cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
-    -DROOT=ON \
-    -DBACKEND=Vc \
+    -DROOT=ON -DBACKEND=Vc \
     -DVc_DIR=${INSTALL_DIR}/lib/cmake/Vc/ \
     ${SOURCE_DIR}/VecCore -G Ninja
 run-verbose cmake --build ${PWD} --target all
@@ -108,7 +107,10 @@ run-verbose cmake --build ${PWD} --target install
 
 setup-build
 run-verbose cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
-    -DROOT=ON \
+    -DBUILTIN_VECCORE=OFF \
+    -DCUDA=OFF -DCUDA_VOLUME_SPECIALIZATION=OFF \
+    -DNO_SPECIALIZATION=ON -DROOT=ON \
+    -DVECGEOM_VECTOR=${VECGEOM_VECTOR} \
     -DBACKEND=Vc \
     -DVc_DIR=${INSTALL_DIR}/lib/cmake/Vc/ \
     ${SOURCE_DIR}/VecGeom -G Ninja

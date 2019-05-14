@@ -1,15 +1,10 @@
 #!/bin/sh
 
-file-source()
-{
-    for i in $@
-    do
-        if [ -n "$(which ${i})" ]; then
-            echo -e "sourcing $(which ${i})..."
-            . $(which ${i})
-        fi
-    done
-}
-
-file-source geantv.sh
-file-source geant.sh
+export ROOTSYS=/usr/local
+export G4LEVELGAMMADATA=/data/PhotonEvaporation5.3
+export G4NEUTRONXSDATA=/data/G4PARTICLEXS1.1/neutron
+export G4LEDATA=/data/G4EMLOW7.7
+export G4SAIDXSDATA=/data/G4SAIDDATA2.0
+export G4RADIOACTIVEDATA=/data/RadioactiveDecay5.3
+export G4NEUTRONHPDATA=/data/G4NDL4.5
+export G4ENSDFSTATEDATA=/data/G4ENSDFSTATE2.2
