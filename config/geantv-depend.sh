@@ -65,7 +65,7 @@ run-verbose git checkout master
 cd ${SOURCE_DIR}
 run-verbose git clone https://gitlab.cern.ch/VecGeom/VecGeom.git
 cd VecGeom
-run-verbose git checkout v00.05.01
+run-verbose git checkout v01.01.01
 
 ### Environment settings
 : ${VECGEOM_VECTOR:=avx}
