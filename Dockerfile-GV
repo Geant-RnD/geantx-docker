@@ -43,8 +43,7 @@ COPY ./config/geantv-build.sh /tmp/
 # build the software
 RUN ./${SOFTWARE}-build.sh
 
-# clean up
-RUN rm -rf /tmp/*
+COPY ./config/etc/profile.d/*.sh /etc/profile.d/
 
 USER root
 WORKDIR /home

@@ -30,7 +30,7 @@ run-verbose()
 ### Checkout GeantV
 
 cd ${SOURCE_DIR}
-run-verbose git clone https://gitlab.cern.ch/GeantV/geant.git
+run-verbose git clone https://gitlab.cern.ch/yunsong/geant.git
 
 # dummy to fool it into downloading file
 mkdir -p geant/data
@@ -48,7 +48,8 @@ run-verbose cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
     -DDATA_DOWNLOAD=ON \
     -DVECTORIZED_GEOMETRY=ON \
     -DUSE_VECPHYS=OFF \
-    -DBUILD_REAL_PHYSICS_TESTS=OFF \
+    -DUSE_NUMA=OFF \
+    -DBUILD_REAL_PHYSICS_TESTS=ON \
     ${SOURCE_DIR}/geant -G Ninja
 
 run-verbose cmake --build ${PWD} --target all
