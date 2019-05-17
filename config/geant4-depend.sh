@@ -11,7 +11,7 @@ run-verbose()
 cd /tmp
 
 # default settings, can be overridden by environment settings in Dockerfile
-: ${BUILD_TYPE:=Release}
+: ${BUILD_TYPE:=RelWithDebInfo}
 : ${SHARED:=ON}
 : ${STATIC:=OFF}
 : ${CXXSTD:=11}

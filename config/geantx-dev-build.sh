@@ -3,7 +3,7 @@
 ## Common
 
 TOP_DIR=/tmp
-INSTALL_DIR=/usr/local
+INSTALL_DIR=/opt/local
 BUILD_DIR=${TOP_DIR}/build
 SOURCE_DIR=${TOP_DIR}/sources
 

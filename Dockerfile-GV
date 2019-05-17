@@ -2,7 +2,7 @@
 #   Build stage 1
 ################################################################################
 ARG BASE_IMG=geantx/geant4
-ARG BASE_TAG=latest
+ARG BASE_TAG=shifter
 FROM ${BASE_IMG}:${BASE_TAG} as builder
 
 WORKDIR /tmp
@@ -17,7 +17,7 @@ ENV COMPILER_VERSION ${COMPILER_VERSION}
 ARG SHARED=ON
 ARG STATIC=OFF
 ARG CXXSTD=11
-ARG BUILD_TYPE=Release
+ARG BUILD_TYPE=RelWithDebInfo
 ARG SOFTWARE=geantv
 
 # environment settings
@@ -42,10 +42,12 @@ RUN ./${SOFTWARE}-depend.sh
 COPY ./config/geantv-build.sh /tmp/
 # build the software
 RUN ./${SOFTWARE}-build.sh
+# clean up
+RUN rm -rf /tmp/*
 
-COPY ./config/etc/profile.d/*.sh /etc/profile.d/
+RUN mkdir /output
 
 USER root
-WORKDIR /home
+WORKDIR /opt/local/bin/benchmarks
 SHELL [ "/bin/bash", "--login", "-c" ]
 ENTRYPOINT [ "/runtime-entrypoint.sh" ]

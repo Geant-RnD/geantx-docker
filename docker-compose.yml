@@ -20,7 +20,7 @@ services:
           BASE_TAG: "latest"
           COMPILER_TYPE: "gcc"
           COMPILER_VERSION: "7"
-          BUILD_TYPE: "Release"
+          BUILD_TYPE: "RelWithDebInfo"
           TIMEMORY: "ON"
           SOFTWARE: "geant4"
 
@@ -35,10 +35,10 @@ services:
         dockerfile: Dockerfile-GV
         args:
           BASE_IMG: "geantx/geant4"
-          BASE_TAG: "latest"
+          BASE_TAG: "shifter"
           COMPILER_TYPE: "gcc"
           COMPILER_VERSION: "7"
-          BUILD_TYPE: "Release"
+          BUILD_TYPE: "RelWithDebInfo"
           TIMEMORY: "ON"
           SOFTWARE: "geantv"
 
@@ -56,7 +56,7 @@ services:
           BASE_TAG: "latest"
           COMPILER_TYPE: "gcc"
           COMPILER_VERSION: "7"
-          BUILD_TYPE: "Release"
+          BUILD_TYPE: "RelWithDebInfo"
           TIMEMORY: "ON"
           SOFTWARE: "geantx-dev"
 
@@ -74,7 +74,7 @@ services:
           BASE_TAG: "10.1-devel-ubuntu18.04"
           COMPILER_TYPE: "gcc"
           COMPILER_VERSION: "7"
-          BUILD_TYPE: "Release"
+          BUILD_TYPE: "RelWithDebInfo"
           TIMEMORY: "ON"
           SOFTWARE: "geantx-dev"
           REQUIRE_CUDA_VERSION: "10.1"

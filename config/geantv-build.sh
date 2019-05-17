@@ -5,9 +5,9 @@ VC_VERSION=1.3.3
 ## Common
 
 TOP_DIR=/tmp
-INSTALL_DIR=/usr/local
+INSTALL_DIR=/opt/local
 BUILD_DIR=${TOP_DIR}/build
-SOURCE_DIR=${TOP_DIR}/sources
+SOURCE_DIR=/source
 
 mkdir -p ${SOURCE_DIR}
 mkdir -p ${INSTALL_DIR}
@@ -30,7 +30,7 @@ run-verbose()
 ### Checkout GeantV
 
 cd ${SOURCE_DIR}
-run-verbose git clone https://gitlab.cern.ch/yunsong/geant.git
+run-verbose git clone -b container https://gitlab.cern.ch/yunsong/geant.git
 
 # dummy to fool it into downloading file
 mkdir -p geant/data

@@ -58,7 +58,7 @@ remove-broken-links()
 #------------------------------------------------------------------------------#
 #  CMAKE_PREFIX_PATH
 #------------------------------------------------------------------------------#
-for i in $(find /usr/local/lib -maxdepth 1 -type d | grep 'Geant4-')
+for i in $(find /opt/local/lib -maxdepth 1 -type d | grep 'Geant4-')
 do
     export CMAKE_PREFIX_PATH=${i}:${CMAKE_PREFIX_PATH}
 done

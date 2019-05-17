@@ -31,7 +31,7 @@ ARG SHARED=ON
 ARG STATIC=OFF
 ARG CXXSTD=11
 ARG TIMEMORY=OFF
-ARG BUILD_TYPE=Release
+ARG BUILD_TYPE=RelWithDebInfo
 ARG SOFTWARE=geant4
 
 # environment settings
@@ -75,15 +75,15 @@ ENV BASH_ENV /etc/bash.bashrc
 ENV DEBIAN_FRONTEND noninteractive
 
 ARG REQUIRE_CUDA_VERSION=10.0
-ENV CUDA_HOME "/usr/local/cuda"
+ENV CUDA_HOME "/opt/local/cuda"
 ENV NVIDIA_REQUIRE_CUDA "cuda>=${REQUIRE_CUDA_VERSION}"
 ENV NVIDIA_VISIBLE_DEVICES "all"
 ENV NVIDIA_DRIVER_CAPABILITIES "compute,utility"
 
 ENV CC /usr/bin/cc
 ENV CXX /usr/bin/c++
-ENV CUDACC /usr/local/cuda/bin/nvcc
-ENV CUDACXX /usr/local/cuda/bin/nvcc
+ENV CUDACC /opt/local/cuda/bin/nvcc
+ENV CUDACXX /opt/local/cuda/bin/nvcc
 
 #------------------------------------------------------------------------------#
 #   interactive settings and startup

@@ -11,7 +11,7 @@ run-verbose()
 cd /tmp
 
 # default settings, can be overridden by environment settings in Dockerfile
-: ${BUILD_TYPE:=Release}
+: ${BUILD_TYPE:=RelWithDebInfo}
 : ${SHARED:=ON}
 : ${STATIC:=OFF}
 : ${CXXSTD:=11}
@@ -85,7 +85,7 @@ echo -e "\n\n###################################################################
 run-verbose cmake -C geant4-config.cmake /tmp/geant4-source
 
 # copy cmake configuration to place it can be referred to later
-cp geant4-config.cmake /usr/local/share/
+cp geant4-config.cmake /opt/local/share/
 
 #-----------------------------------------------------------------------------#
 
